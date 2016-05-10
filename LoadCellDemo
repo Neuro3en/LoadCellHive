@@ -1,0 +1,33 @@
+#include "HX711.h"
+
+HX711 cell(3, 2);
+
+void setup() {
+  Serial.begin(9600);
+}
+
+float val = 0;
+float count = 0;
+
+void loop() {
+  //count = count + 1;
+  val=cell.read()/1000.0f;
+  for (count = 1; count<11; count++){
+  // Use only one of these
+  //val = ((count-1)/count) * val    +  (1/count) * cell.read(); // take long term average
+  val =  val    +   cell.read()/1000.0f; // take recent average
+  //val = cell.read(); // most recent reading
+  // empty 8537400
+  // empty later 8540600
+  // full 15851000
+  // full 15841000
+  // full 15831000
+  // neustart
+  // full 15831000
+  // full 15818000
+  // full 15809000
+  //delay(1);
+
+  }
+  Serial.println((val/10.0f) - 17382);
+}
